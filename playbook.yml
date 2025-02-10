@@ -1,5 +1,6 @@
 - name: Boostrap application server
   hosts: applications
+  gather_facts: no
   vars:
     username: "{{ lookup('env', 'HL_USERNAME') }}"
     tunnel_token: "{{ lookup('env', 'CF_TUNNEL_TOKEN') }}"
@@ -64,8 +65,14 @@
         content: |
           TUNNEL_TOKEN={{ tunnel_token }} 
 
+    - name: Copy NGINX configuration file
+      ansible.builtin.copy:
+        src: ./configs/nginx/jupiter.conf
+        dest: "/home/{{ username }}/jupiter.conf"
+
     - name: Start containers
       community.docker.docker_compose_v2:
         project_src: "/home/{{ username }}/"
         project_name: "jupiter"
         remove_orphans: true
+        recreate: "always"
