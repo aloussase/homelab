@@ -1,0 +1,12 @@
+applications:
+  hosts:
+    jupiter:
+      ansible_host: 192.168.18.21
+      ansible_become: true
+      ansible_become_user: root
+
+media:
+nas:
+monitoring:
+storage:
+git:

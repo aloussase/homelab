@@ -1,0 +1,46 @@
+- name: Boostrap application server
+  hosts: applications
+  pre_tasks:
+    - name: Make sure required environment variables are set
+      assert:
+        that:
+          - lookup('env', 'HL_USERNAME') != ""
+        fail_msg: 'HL_USERNAME is not set'
+  tasks:
+    - name: Set hostname
+      ansible.builtin.hostname:
+        name: jupiter
+
+    - name: Replace raspberrypi hostname in /etc/hosts
+      ansible.builtin.replace:
+        path: /etc/hosts
+        regexp: '(\s+)raspberrypi(\s+.*)?$'
+        replace: '\1jupiter\2'
+
+    - name: Restart avahi-daemon
+      ansible.builtin.systemd:
+        state: restarted
+        name: avahi-daemon
+
+    - name: Update and dist upgrade
+      ansible.builtin.apt:
+        update_cache: yes
+        upgrade: dist
+
+    - name: Install Docker and compose plugin
+      ansible.builtin.apt:
+        pkg:
+          - docker.io
+          - docker-compose-v2
+
+    - name: Make sure the Docker group exists
+      ansible.builtin.group:
+        name: docker
+        state: present
+
+    - name: Add user to Docker group
+      ansible.builtin.user:
+        name: "{{ lookup('env', 'HL_USERNAME') }}"
+        append: true
+        groups:
+          - docker
