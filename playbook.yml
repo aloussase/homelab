@@ -1,10 +1,12 @@
 - name: Boostrap application server
   hosts: applications
+  vars:
+    username: "{{ lookup('env', 'HL_USERNAME') }}"
   pre_tasks:
     - name: Make sure required environment variables are set
       assert:
         that:
-          - lookup('env', 'HL_USERNAME') != ""
+          - username != ""
         fail_msg: 'HL_USERNAME is not set'
   tasks:
     - name: Set hostname
@@ -40,7 +42,18 @@
 
     - name: Add user to Docker group
       ansible.builtin.user:
-        name: "{{ lookup('env', 'HL_USERNAME') }}"
+        name: "{{ username }}"
         append: true
         groups:
           - docker
+
+    - name: Copy compose file
+      ansible.builtin.copy:
+        src: ./compose-files/applications/docker-compose.yml
+        dest: "/home/{{ username }}/docker-compose.yml"
+
+    - name: Start containers
+      community.docker.docker_compose_v2:
+        project_src: "/home/{{ username }}/"
+        project_name: "jupiter"
+        remove_orphans: true
