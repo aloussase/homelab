@@ -1,6 +1,15 @@
 services:
-  site:
-    image: aloussase/site:latest
+  # site:
+  #   container_name: site
+  #   image: aloussase/site:latest
+  #   restart: unless-stopped
+  #   ports: 
+  #     - "3000:8080"
+
+  tunnel:
+    container_name: cloudflare-tunnel
+    image: cloudflare/cloudflared
     restart: unless-stopped
-    ports: 
-      - "3000:8080"
+    environment:
+      - TUNNEL_TOKEN=$TUNNEL_TOKEN
+    command: tunnel --no-autoupdate run

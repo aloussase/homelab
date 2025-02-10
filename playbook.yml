@@ -2,6 +2,7 @@
   hosts: applications
   vars:
     username: "{{ lookup('env', 'HL_USERNAME') }}"
+    tunnel_token: "{{ lookup('env', 'CF_TUNNEL_TOKEN') }}"
   pre_tasks:
     - name: Make sure required environment variables are set
       assert:
@@ -51,6 +52,17 @@
       ansible.builtin.copy:
         src: ./compose-files/applications/docker-compose.yml
         dest: "/home/{{ username }}/docker-compose.yml"
+
+    - name: Create .env file for docker compose
+      ansible.builtin.file:
+        path: "/home/{{ username }}/.env"
+        state: touch
+
+    - name: Populate .env file with necessary variables
+      ansible.builtin.copy:
+        dest: "/home/{{ username }}/.env"
+        content: |
+          TUNNEL_TOKEN={{ tunnel_token }} 
 
     - name: Start containers
       community.docker.docker_compose_v2:
