@@ -1,11 +1,11 @@
 services:
-  # site:
-  #   container_name: site
-  #   image: aloussase/site:latest
-  #   restart: unless-stopped
-  #   ports: 
-  #     - "3000:8080"
-  #
+  site:
+    container_name: site
+    image: aloussase/site:latest
+    restart: unless-stopped
+    platform: linux/amd64
+    ports: 
+      - "3000:8080"
 
   dashboard:
     container_name: dashboard
@@ -13,6 +13,8 @@ services:
     ports:
       - "3001:8080"
     restart: unless-stopped
+    volumes:
+      - ./dashboard.yml:/www/assets/config.yml
 
   nginx:
     container_name: nginx

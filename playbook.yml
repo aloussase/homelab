@@ -70,6 +70,11 @@
         src: ./configs/nginx/jupiter.conf
         dest: "/home/{{ username }}/jupiter.conf"
 
+    - name: Copy dashboard configuration file
+      ansible.builtin.copy:
+        src: ./configs/dashboards/homer.yml
+        dest: "/home/{{ username }}/dashboard.yml"
+
     - name: Start containers
       community.docker.docker_compose_v2:
         project_src: "/home/{{ username }}/"

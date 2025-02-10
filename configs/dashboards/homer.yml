@@ -1,0 +1,21 @@
+---
+title: "App dashboard"
+subtitle: ""
+documentTitle: "Dashboard"
+icon: "fas fa-skull-crossbones"
+
+header: false
+footer: false
+
+columns: "4"
+connectivityCheck: true 
+
+defaults:
+  layout: columns
+  colorTheme: auto
+
+theme: neon
+
+links: []
+
+services: []
