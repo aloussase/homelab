@@ -1,0 +1,6 @@
+services:
+  site:
+    image: aloussase/site:latest
+    restart: unless-stopped
+    ports: 
+      - "3000:8080"
