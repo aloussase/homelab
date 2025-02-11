@@ -4,12 +4,15 @@
   vars:
     username: "{{ lookup('env', 'HL_USERNAME') }}"
     tunnel_token: "{{ lookup('env', 'CF_TUNNEL_TOKEN') }}"
+    portainer_api_key: "{{ lookup('env', 'PORTAINER_API_KEY') }}"
   pre_tasks:
     - name: Make sure required environment variables are set
       assert:
         that:
           - username != ""
-        fail_msg: 'HL_USERNAME is not set'
+          - portainer_api_key != ""
+          - tunnel_token != ""
+        fail_msg: 'Some required environment variables are not set'
   tasks:
     - name: Set hostname
       ansible.builtin.hostname:
@@ -70,10 +73,21 @@
         src: ./configs/nginx/jupiter.conf
         dest: "/home/{{ username }}/jupiter.conf"
 
+    - name: Copy logo image
+      ansible.builtin.copy:
+        src: ./assets/logo.png
+        dest: "/home/{{ username }}/logo.png"
+
     - name: Copy dashboard configuration file
       ansible.builtin.copy:
         src: ./configs/dashboards/homer.yml
         dest: "/home/{{ username }}/dashboard.yml"
+
+    - name: Replace Portainer API Key in dashboard configuration
+      ansible.builtin.replace:
+        path: "/home/{{ username }}/dashboard.yml"
+        regexp: '\$PORTAINER_API_KEY'
+        replace: "{{ portainer_api_key }}"
 
     - name: Start containers
       community.docker.docker_compose_v2:

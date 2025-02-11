@@ -1,13 +1,14 @@
 ---
-title: "App dashboard"
-subtitle: ""
+title: "Frustrated Functor Home Lab"
+subtitle: "Dashboard"
 documentTitle: "Dashboard"
-icon: "fas fa-skull-crossbones"
+logo: "assets/logo.png"
+# icon: "fas fa-skull-crossbones"
 
-header: false
+header: true
 footer: false
 
-columns: "4"
+columns: "3"
 connectivityCheck: true 
 
 defaults:
@@ -16,6 +17,40 @@ defaults:
 
 theme: neon
 
-links: []
+links:
+  - name: "GitHub"
+    icon: "fab fa-github"
+    url: "https://github.com/aloussase"
+    target: "_blank"
 
-services: []
+services:
+  - name: "Apps"
+    icon: "fas fa-cloud"
+    items:
+      - name: "Portainer"
+        subtitle: "Containers running on Jupiter"
+        logo: "assets/tools/sample.png"
+        url: "http://jupiter.local/containers/"
+        type: "Portainer"
+        apikey: "$PORTAINER_API_KEY"
+      - name: "Blog"
+        subtitle: "Personal blog"
+        logo: "assets/tools/sample.png"
+        url: "https://frustrated-functor.dev"
+        tag: "app"
+
+  - name: "Media"
+    icon: "fas fa-cloud"
+    items: []
+
+  - name: "Monitoring"
+    icon: "fas fa-cloud"
+    items: []
+
+  - name: "Databases"
+    icon: "fas fa-cloud"
+    items: []
+
+  - name: "CI/CD"
+    icon: "fas fa-cloud"
+    items: []
