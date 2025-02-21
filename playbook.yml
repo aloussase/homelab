@@ -73,6 +73,11 @@
         src: ./configs/nginx/jupiter.conf
         dest: "/home/{{ username }}/jupiter.conf"
 
+    - name: Copy WNRS JSON levels
+      ansible.builtin.copy:
+        src: ./assets/wnrs-levels.json
+        dest: "/home/{{ username }}/wnrs.json"
+
     - name: Copy logo image
       ansible.builtin.copy:
         src: ./assets/logo.png
