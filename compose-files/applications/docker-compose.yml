@@ -9,13 +9,20 @@ services:
 
   issues-aggregator-backend:
     container_name: issues-aggregator-backend
-    image: aloussase/gh-api-bff
+    image: aloussase/gh-api-bff:latest
     restart: unless-stopped
     env_file: ".env"
     environment:
       PORT: 6900 
     ports:
       - "6900:6900"
+
+  issues-aggregator-frontend:
+    container_name: issues-aggregator-frontend
+    image: aloussase/gh-api-mf:latest
+    restart: unless-stopped
+    ports:
+      - "6901:6901"
 
   dashboard:
     container_name: dashboard
