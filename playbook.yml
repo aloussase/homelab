@@ -5,6 +5,7 @@
     username: "{{ lookup('env', 'HL_USERNAME') }}"
     tunnel_token: "{{ lookup('env', 'CF_TUNNEL_TOKEN') }}"
     portainer_api_key: "{{ lookup('env', 'PORTAINER_API_KEY') }}"
+    gh_access_token:  "{{ lookup('env', 'GH_ACCESS_TOKEN') }}"
   pre_tasks:
     - name: Make sure required environment variables are set
       assert:
@@ -12,6 +13,7 @@
           - username != ""
           - portainer_api_key != ""
           - tunnel_token != ""
+          - gh_access_token != ""
         fail_msg: 'Some required environment variables are not set'
   tasks:
     - name: Set hostname
@@ -67,6 +69,7 @@
         dest: "/home/{{ username }}/.env"
         content: |
           TUNNEL_TOKEN={{ tunnel_token }} 
+          GH_API_BFF_ACCESS_TOKEN={{ gh_access_token }}
 
     - name: Copy NGINX configuration file
       ansible.builtin.copy:

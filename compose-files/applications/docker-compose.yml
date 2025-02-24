@@ -7,6 +7,16 @@ services:
     ports: 
       - "3000:8080"
 
+  issues-aggregator-backend:
+    container_name: issues-aggregator-backend
+    image: aloussase/gh-api-bff
+    restart: unless-stopped
+    env_file: ".env"
+    environment:
+      PORT: 6900 
+    ports:
+      - "6900:6900"
+
   dashboard:
     container_name: dashboard
     image: b4bz/homer
