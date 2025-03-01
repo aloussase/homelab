@@ -38,6 +38,11 @@ services:
         logo: "assets/tools/sample.png"
         url: "https://frustrated-functor.dev"
         tag: "app"
+      - name: "Issue Aggregator"
+        subtitle: "Aggregates my GitHub issues in one place"
+        logo: "assets/tools/sample.png"
+        url: "https://frustrated-functor.dev/issues"
+        tag: "app"
 
   - name: "Media"
     icon: "fas fa-cloud"

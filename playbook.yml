@@ -96,10 +96,3 @@
         path: "/home/{{ username }}/dashboard.yml"
         regexp: '\$PORTAINER_API_KEY'
         replace: "{{ portainer_api_key }}"
-
-    - name: Start containers
-      community.docker.docker_compose_v2:
-        project_src: "/home/{{ username }}/"
-        project_name: "jupiter"
-        remove_orphans: true
-        recreate: "always"
