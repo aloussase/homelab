@@ -3,17 +3,11 @@
   gather_facts: no
   vars:
     username: "{{ lookup('env', 'HL_USERNAME') }}"
-    tunnel_token: "{{ lookup('env', 'CF_TUNNEL_TOKEN') }}"
-    portainer_api_key: "{{ lookup('env', 'PORTAINER_API_KEY') }}"
-    gh_access_token:  "{{ lookup('env', 'GH_ACCESS_TOKEN') }}"
   pre_tasks:
     - name: Make sure required environment variables are set
       assert:
         that:
           - username != ""
-          - portainer_api_key != ""
-          - tunnel_token != ""
-          - gh_access_token != ""
         fail_msg: 'Some required environment variables are not set'
   tasks:
     - name: Set hostname
@@ -53,46 +47,3 @@
         append: true
         groups:
           - docker
-
-    - name: Copy compose file
-      ansible.builtin.copy:
-        src: ./compose-files/applications/docker-compose.yml
-        dest: "/home/{{ username }}/docker-compose.yml"
-
-    - name: Create .env file for docker compose
-      ansible.builtin.file:
-        path: "/home/{{ username }}/.env"
-        state: touch
-
-    - name: Populate .env file with necessary variables
-      ansible.builtin.copy:
-        dest: "/home/{{ username }}/.env"
-        content: |
-          TUNNEL_TOKEN={{ tunnel_token }} 
-          GH_API_BFF_ACCESS_TOKEN={{ gh_access_token }}
-
-    - name: Copy NGINX configuration file
-      ansible.builtin.copy:
-        src: ./configs/nginx/jupiter.conf
-        dest: "/home/{{ username }}/jupiter.conf"
-
-    - name: Copy WNRS JSON levels
-      ansible.builtin.copy:
-        src: ./assets/wnrs-levels.json
-        dest: "/home/{{ username }}/wnrs.json"
-
-    - name: Copy logo image
-      ansible.builtin.copy:
-        src: ./assets/logo.png
-        dest: "/home/{{ username }}/logo.png"
-
-    - name: Copy dashboard configuration file
-      ansible.builtin.copy:
-        src: ./configs/dashboards/homer.yml
-        dest: "/home/{{ username }}/dashboard.yml"
-
-    - name: Replace Portainer API Key in dashboard configuration
-      ansible.builtin.replace:
-        path: "/home/{{ username }}/dashboard.yml"
-        regexp: '\$PORTAINER_API_KEY'
-        replace: "{{ portainer_api_key }}"
