@@ -30,11 +30,12 @@
         update_cache: yes
         upgrade: dist
 
-    - name: Install Docker and compose plugin
+    - name: Install necessary system packages
       ansible.builtin.apt:
         pkg:
           - docker.io
           - docker-compose-v2
+          - openjdk-17-jre-headless
 
     - name: Make sure the Docker group exists
       ansible.builtin.group:
