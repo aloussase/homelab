@@ -1,5 +1,5 @@
 ---
-title: "Frustrated Functor Home Lab"
+title: "Home Lab"
 subtitle: "Dashboard"
 documentTitle: "Dashboard"
 logo: "assets/logo.png"
@@ -35,7 +35,19 @@ services:
 
   - name: "Media"
     icon: "fas fa-cloud"
-    items: []
+    items:
+      - name: "Streaming"
+        logo: "assets/tools/sample.png"
+        url: "https://media.frustrated-functor.dev"
+        tag: "media"
+      - name: "Movies"
+        logo: "assets/tools/sample.png"
+        url: "https://movies.frustrated-functor.dev"
+        tag: "media"
+      - name: "TV Shows and Anime"
+        logo: "assets/tools/sample.png"
+        url: "https://shows.frustrated-functor.dev"
+        tag: "media"
 
   - name: "Monitoring"
     icon: "fas fa-cloud"
